@@ -131,7 +131,8 @@ Please modify `./configs/ours/*` to play with your model and read `./tools/train
 An example to evaluate our method with 6 groups on RUGD datasets with mIoU metrics:
 
 ```
-python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd.py ./trained_models/rugd_group6/ganav_rugd.pth --eval=mIoU
+python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd.py \
+          ./trained_models/rugd_group6/ganav_rugd.pth --eval=mIoU
 ```
 Please read `./tools/test.py` for more details.
 
