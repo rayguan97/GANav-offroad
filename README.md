@@ -70,7 +70,7 @@ To be able to run our network, please follow those steps for generating processe
 
 ### Dataset Download: 
 
-Please go to [RUGD](http://rugd.vision/) and [RELLIS-3D](https://github.com/unmannedlab/RELLIS-3D/blob/main/README.md#annotated-data) officail website to download their data. Please structure the downloaded datain as follows:
+Please go to [RUGD](http://rugd.vision/) and [RELLIS-3D](https://github.com/unmannedlab/RELLIS-3D/blob/main/README.md#annotated-data) (we use the ID annotation instead of color annotation for RELLIS-3D) officail website to download their data. Please structure the downloaded datain as follows:
 
 ```
 GANav
@@ -136,7 +136,7 @@ python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd.py \
 ```
 Please read `./tools/test.py` for more details.
 
-To repreduce the papers results, please refer `./trained_models` folder.
+To repreduce the papers results, please refer `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
 
 
 
