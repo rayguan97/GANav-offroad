@@ -14,7 +14,7 @@ If you find this project useful in your research, please cite our work:
 ```latex
 @misc{guan2021ganav,
       title={GANav: Group-wise Attention Network for Classifying Navigable Regions in Unstructured Outdoor Environments}, 
-      author={Tianrui Guan and Divya Kothandaraman and Rohan Chandra and Dinesh Manocha},
+      author={Tianrui Guan and Divya Kothandaraman and Rohan Chandra and Adarsh Jagan Sathyamoorthy and Dinesh Manocha},
       year={2021},
       eprint={2103.04233},
       archivePrefix={arXiv},
@@ -22,7 +22,7 @@ If you find this project useful in your research, please cite our work:
 }
 ```
 
-Our video can be found [here](https://www.youtube.com/watch?v=-ck_JcNmMPw).
+Our video can be found [here](https://www.youtube.com/watch?v=wy4k7Oz1HHM).
 
 # Introduction
 
