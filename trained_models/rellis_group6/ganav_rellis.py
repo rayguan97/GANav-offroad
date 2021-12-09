@@ -90,6 +90,7 @@ test_pipeline = [
                 mean=[123.675, 116.28, 103.53],
                 std=[58.395, 57.12, 57.375],
                 to_rgb=True),
+            dict(type='Pad', size=(375, 600), pad_val=0, seg_pad_val=255),
             dict(type='ImageToTensor', keys=['img']),
             dict(type='Collect', keys=['img'])
         ])
@@ -141,6 +142,7 @@ data = dict(
                         mean=[123.675, 116.28, 103.53],
                         std=[58.395, 57.12, 57.375],
                         to_rgb=True),
+                    dict(type='Pad', size=(375, 600), pad_val=0, seg_pad_val=255),
                     dict(type='ImageToTensor', keys=['img']),
                     dict(type='Collect', keys=['img'])
                 ])
@@ -165,6 +167,7 @@ data = dict(
                         mean=[123.675, 116.28, 103.53],
                         std=[58.395, 57.12, 57.375],
                         to_rgb=True),
+                    dict(type='Pad', size=(375, 600), pad_val=0, seg_pad_val=255),
                     dict(type='ImageToTensor', keys=['img']),
                     dict(type='Collect', keys=['img'])
                 ])
