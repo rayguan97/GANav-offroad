@@ -1,0 +1,4 @@
+Run GANav:
+rosrun terrain_segment segmented_navigation.py /dir/GANav-offroad/trained_models/rugd_group6/ganav_rugd.py /dir/GANav-offroad/trained_models/rugd_group6/ganav_rugd.pth
+
+This is the ROS version of the GANav code.
