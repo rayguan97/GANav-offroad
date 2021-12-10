@@ -1,5 +1,8 @@
 # GANav: Group-wise Attention Network for Classifying Navigable Regions in Unstructured Outdoor Environments
 
+## Updates:
+12-9-2021: updated ros-support for GANav [Here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://github.com/rayguan97/GANav-offroad/blob/master/LICENSE)
 
 This is the code base for:
