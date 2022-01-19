@@ -45,12 +45,16 @@ We show through extensive evaluations on the RUGD and RELLIS-3D datasets that ou
 conda create -n ganav python=3.7 -y
 conda activate ganav
 conda install pytorch=1.6.0 torchvision cudatoolkit=10.1 -c pytorch
+# or use 
+# conda install pytorch=1.10.0 torchvision cudatoolkit=11.3 -c pytorch
 ```
 
 ### Step 2: Installing MMCV
 
 ```
-pip install mmcv-full==1.3.0 -f https://download.openmmlab.com/mmcv/dist/cu101/torch1.6.0/index.html
+pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu101/torch1.6.0/index.html
+# or use
+# pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.10.0/index.html
 ```
 Note: Make sure you mmcv version is compatible with your pytorch and cuda version.
 
