@@ -28,7 +28,7 @@ Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
 ## Updates:
 02-21-2022: Updated code in preparation.
 
-12-9-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
+12-09-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
 
 # Introduction
 
