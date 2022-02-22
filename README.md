@@ -1,11 +1,11 @@
-# GANav: Group-wise Attention Network for Classifying Navigable Regions in Unstructured Outdoor Environments
+# GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://github.com/rayguan97/GANav-offroad/blob/master/LICENSE)
 
 This is the code base for:
 
-[GANav: Group-wise Attention Network for Classifying Navigable Regions in Unstructured Outdoor Environments](https://gamma.umd.edu/offroad).
-<br> Tianrui Guan, Divya Kothandaraman, Rohan Chandra, Dinesh Manocha
+[GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments](https://gamma.umd.edu/offroad).
+<br> Tianrui Guan, Divya Kothandaraman, Rohan Chandra, Adarsh Jagan Sathyamoorthy, Kasun Weerakoon, Dinesh Manocha
 
 <img src="./resources/video.gif" width="560">
 
@@ -13,28 +13,31 @@ If you find this project useful in your research, please cite our work:
 
 ```latex
 @misc{guan2021ganav,
-      title={GANav: Group-wise Attention Network for Classifying Navigable Regions in Unstructured Outdoor Environments}, 
-      author={Tianrui Guan and Divya Kothandaraman and Rohan Chandra and Adarsh Jagan Sathyamoorthy and Dinesh Manocha},
+      title={GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments}, 
+      author={Tianrui Guan and Divya Kothandaraman and Rohan Chandra and Adarsh Jagan Sathyamoorthy and Kasun Weerakoon and Dinesh Manocha},
       year={2021},
       eprint={2103.04233},
       archivePrefix={arXiv},
       primaryClass={cs.RO}
 }
+
 ```
 
-Our video can be found [here](https://www.youtube.com/watch?v=wy4k7Oz1HHM).
+Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
 
 ## Updates:
-12-9-2021: updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
+02-21-2022: Updated code in preparation.
+
+12-9-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
 
 # Introduction
 
 <img src="./resources/cover.png" width="700">
 
 
-We present a new learning-based method for identifying safe and navigable regions in off-road terrains and unstructured environments from RGB images. Our approach consists of classifying groups of terrain classes based on their navigability levels using coarse-grained semantic segmentation. We propose a bottleneck transformer-based deep neural network architecture that uses a novel group-wise attention mechanism to distinguish between navigability levels of different terrains. Our group-wise attention heads enable the network to explicitly focus on the different groups and improve the accuracy. 
+We propose GANav, a novel group-wise attention mechanism to identify safe and navigable regions in off-road terrains and unstructured environments from RGB images. Our approach classifies terrains based on their navigability levels using coarse-grained semantic segmentation. Our novel group-wise attention loss enables any backbone network to explicitly focus on the different groups' features with low spatial resolution. Our design leads to efficient inference while maintaining a high level of accuracy compared to existing SOTA methods. 
 
-We show through extensive evaluations on the RUGD and RELLIS-3D datasets that our learning algorithm improves the accuracy of visual perception in off-road terrains for navigation. We compare our approach with prior work on these datasets and achieve an improvement over the state-of-the-art mIoU by 6.74-39.1% on RUGD and 3.82-10.64% on RELLIS-3D.
+Our extensive evaluations on the RUGD and RELLIS-3D datasets shows that GANav achieves an improvement over the SOTA mIoU by 2.25-39.05% on RUGD and 5.17-19.06% on RELLIS-3D. We interface GANav with a deep reinforcement learning-based navigation algorithm and highlight its benefits in terms of navigation in real-world unstructured terrains. We integrate our GANav-based navigation algorithm with ClearPath Jackal and Husky robots, and observe an increase of 10% in terms of success rate, 2-47% in terms of selecting the surface with the best navigability and a decrease of 4.6-13.9% in trajectory roughness. Further, GANav reduces the false positive rate of forbidden regions by 37.79%. Code, videos, and a full technical report are available at https://gamma.umd.edu/offroad/.
 
 # Environment
 
