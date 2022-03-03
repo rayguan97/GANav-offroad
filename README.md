@@ -146,7 +146,7 @@ python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd.py \
 ```
 Please read `./tools/test.py` for more details.
 
-To repreduce the papers results, please refer `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
+<!-- To repreduce the papers results, please refer `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing). -->
 
 
 
