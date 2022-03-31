@@ -26,9 +26,11 @@ If you find this project useful in your research, please cite our work:
 Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
 
 ## Updates:
-02-21-2022: Updated code in preparation.
+02-21-2022: Updated code and checkpoints in preparation.
 
 12-09-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
+
+05-10-2021: Trained models are ready. Please refer to `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
 
 # Introduction
 
