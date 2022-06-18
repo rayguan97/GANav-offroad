@@ -1,4 +1,4 @@
-# GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments
+# GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments (Accepted by RAL/IROS 2022)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://github.com/rayguan97/GANav-offroad/blob/master/LICENSE)
 
@@ -26,6 +26,8 @@ If you find this project useful in your research, please cite our work:
 Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
 
 ## Updates:
+06-17-2022: Accepted by RAL/IROS. Latest code still in preparation.
+
 02-21-2022: Updated code and checkpoints in preparation.
 
 12-09-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
