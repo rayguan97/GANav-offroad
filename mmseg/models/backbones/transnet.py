@@ -92,6 +92,8 @@ class RelPosEmb(nn.Module):
         rel_logits_h = rearrange(rel_logits_h, 'b h x i y j -> b h (y x) (j i)')
         return rel_logits_w + rel_logits_h
 
+# classes
+
 class Attention(nn.Module):
     def __init__(
         self,
@@ -100,10 +102,13 @@ class Attention(nn.Module):
         fmap_size,
         heads = 4,
         # dim_head = 128,
-        rel_pos_emb = False
+        rel_pos_emb = False,
+        size_index=None
     ):
         super().__init__()
         self.heads = heads
+        if size_index != None:
+            dim = dim[size_index]
         dim_head = int(dim / heads)
         self.scale = dim_head ** -0.5
         inner_dim = heads * dim_head
@@ -168,6 +173,9 @@ class Attention(nn.Module):
         # print()
         # print(h) # 38
         # print(w) # 47
+        # from IPython import embed
+        # embed()
+        # from IPython import embed;embed()
         assert h==self.h
         assert w==self.w
         # exit(0)
@@ -181,7 +189,12 @@ class Attention(nn.Module):
         sim = einsum('b h i d, b h j d -> b h i j', q, k)
 
         pos_emb = self.relative_logits(q.view(b, heads, h, w, c//heads)).reshape(b, heads, h*w, h*w)
+
+        # from IPython import embed; embed()
+
+        # sim += self.pos_emb(q)
         sim += pos_emb
+        # from IPython import embed; embed()
 
         attn = sim.softmax(dim = -1)
 
@@ -280,7 +293,30 @@ class TransBottleneck(nn.Module):
         fallback_on_stride = False
         if self.with_dcn:
             fallback_on_stride = dcn.pop('fallback_on_stride', False)
+        # if not self.with_dcn or fallback_on_stride:
+        #     self.conv2 = build_conv_layer(
+        #         conv_cfg,
+        #         planes,
+        #         planes,
+        #         kernel_size=3,
+        #         stride=self.conv2_stride,
+        #         padding=dilation,
+        #         dilation=dilation,
+        #         bias=False)
+        # else:
+        #     assert self.conv_cfg is None, 'conv_cfg must be None for DCN'
+        #     self.conv2 = build_conv_layer(
+        #         dcn,
+        #         planes,
+        #         planes,
+        #         kernel_size=3,
+        #         stride=self.conv2_stride,
+        #         padding=dilation,
+        #         dilation=dilation,
+        #         bias=False)
 
+        # self.conv2 = Attention(dim=planes, fmap_size=(38, 47), heads=self.head)
+        # self.conv2 = Attention(dim=planes, fmap_size=(47, 75), heads=self.head)
         self.conv2 = Attention(dim=planes, fmap_size=fmap_size, heads=self.head)
 
         self.add_module(self.norm2_name, norm2)
@@ -784,3 +820,33 @@ class TransNet(nn.Module):
                 # trick: eval have effect on BatchNorm only
                 if isinstance(m, _BatchNorm):
                     m.eval()
+
+
+# @BACKBONES.register_module()
+# class ResNetV1c(ResNet):
+#     """ResNetV1c variant described in [1]_.
+
+#     Compared with default ResNet(ResNetV1b), ResNetV1c replaces the 7x7 conv
+#     in the input stem with three 3x3 convs.
+
+#     References:
+#         .. [1] https://arxiv.org/pdf/1812.01187.pdf
+#     """
+
+#     def __init__(self, **kwargs):
+#         super(ResNetV1c, self).__init__(
+#             deep_stem=True, avg_down=False, **kwargs)
+
+
+# @BACKBONES.register_module()
+# class ResNetV1d(ResNet):
+#     """ResNetV1d variant described in [1]_.
+
+#     Compared with default ResNet(ResNetV1b), ResNetV1d replaces the 7x7 conv in
+#     the input stem with three 3x3 convs. And in the downsampling block, a 2x2
+#     avg_pool with stride 2 is added before conv, whose stride is changed to 1.
+#     """
+
+#     def __init__(self, **kwargs):
+#         super(ResNetV1d, self).__init__(
+#             deep_stem=True, avg_down=True, **kwargs)

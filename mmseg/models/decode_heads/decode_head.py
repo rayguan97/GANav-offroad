@@ -1,9 +1,9 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 from abc import ABCMeta, abstractmethod
 
 import torch
 import torch.nn as nn
-from mmcv.cnn import normal_init
-from mmcv.runner import auto_fp16, force_fp32
+from mmcv.runner import BaseModule, auto_fp16, force_fp32
 
 from mmseg.core import build_pixel_sampler
 from mmseg.ops import resize
@@ -15,7 +15,7 @@ from operator import add
 from mmcv.utils import print_log
 
 
-class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
+class BaseDecodeHead(BaseModule, metaclass=ABCMeta):
     """Base class for BaseDecodeHead.
 
     Args:
@@ -37,14 +37,22 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
                 a list and passed into decode head.
             None: Only one select feature map is allowed.
             Default: None.
-        loss_decode (dict): Config of decode loss.
+        loss_decode (dict | Sequence[dict]): Config of decode loss.
+            The `loss_name` is property of corresponding loss function which
+            could be shown in training log. If you want this loss
+            item to be included into the backward graph, `loss_` must be the
+            prefix of the name. Defaults to 'loss_ce'.
+             e.g. dict(type='CrossEntropyLoss'),
+             [dict(type='CrossEntropyLoss', loss_name='loss_ce'),
+              dict(type='DiceLoss', loss_name='loss_dice')]
             Default: dict(type='CrossEntropyLoss').
         ignore_index (int | None): The label index to be ignored. When using
-            masked BCE loss, ignore_index should be set to None. Default: 255
+            masked BCE loss, ignore_index should be set to None. Default: 255.
         sampler (dict|None): The config of segmentation map sampler.
             Default: None.
         align_corners (bool): align_corners argument of F.interpolate.
             Default: False.
+        init_cfg (dict or list[dict], optional): Initialization config dict.
     """
 
     def __init__(self,
@@ -68,8 +76,12 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
                  clear_interval=2,
                  momentum=0.7,
                  img_size=None,
-                 strides=None):
-        super(BaseDecodeHead, self).__init__()
+                 strides=None,
+                 attn_split=1,
+                 init_cfg=dict(
+                     type='Normal', std=0.01, override=dict(name='conv_seg'))):
+        super(BaseDecodeHead, self).__init__(init_cfg)
+
         self._init_inputs(in_channels, in_index, input_transform)
         self.channels = channels
         self.num_classes = num_classes
@@ -78,9 +90,21 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
         self.norm_cfg = norm_cfg
         self.act_cfg = act_cfg
         self.in_index = in_index
-        self.loss_decode = build_loss(loss_decode)
+
         self.ignore_index = ignore_index
         self.align_corners = align_corners
+        self.attn_split = attn_split
+
+        if isinstance(loss_decode, dict):
+            self.loss_decode = build_loss(loss_decode)
+        elif isinstance(loss_decode, (list, tuple)):
+            self.loss_decode = nn.ModuleList()
+            for loss in loss_decode:
+                self.loss_decode.append(build_loss(loss))
+        else:
+            raise TypeError(f'loss_decode must be a dict or sequence of dict,\
+                but got {type(loss_decode)}')
+
         if sampler is not None:
             self.sampler = build_pixel_sampler(sampler, context=self)
         else:
@@ -154,10 +178,6 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
             assert isinstance(in_index, int)
             self.in_channels = in_channels
 
-    def init_weights(self):
-        """Initialize weights of classification layer."""
-        normal_init(self.conv_seg, mean=0, std=0.01)
-
     def _transform_inputs(self, inputs):
         """Transform inputs for decoder.
 
@@ -167,6 +187,8 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
         Returns:
             Tensor: The transformed inputs
         """
+        # from IPython import embed
+        # embed()
 
         if self.input_transform == 'resize_concat':
             inputs = [inputs[i] for i in self.in_index]
@@ -249,12 +271,25 @@ class BaseDecodeHead(nn.Module, metaclass=ABCMeta):
         else:
             seg_weight = None
         seg_label = seg_label.squeeze(1)
-        loss['loss_seg'] = self.loss_decode(
-            seg_logit,
-            seg_label,
-            weight=seg_weight,
-            # class_weight=self.class_weight,
-            ignore_index=self.ignore_index)
+
+        if not isinstance(self.loss_decode, nn.ModuleList):
+            losses_decode = [self.loss_decode]
+        else:
+            losses_decode = self.loss_decode
+        for loss_decode in losses_decode:
+            if loss_decode.loss_name not in loss:
+                loss[loss_decode.loss_name] = loss_decode(
+                    seg_logit,
+                    seg_label,
+                    weight=seg_weight,
+                    ignore_index=self.ignore_index)
+            else:
+                loss[loss_decode.loss_name] += loss_decode(
+                    seg_logit,
+                    seg_label,
+                    weight=seg_weight,
+                    ignore_index=self.ignore_index)
+
         loss['acc_seg'] = accuracy(seg_logit, seg_label)
         # if self.total_count is not None:
         #     _, pred_label = seg_logit.topk(1, dim=1)

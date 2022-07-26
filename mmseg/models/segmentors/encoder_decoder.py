@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -25,8 +26,13 @@ class EncoderDecoder(BaseSegmentor):
                  auxiliary_head=None,
                  train_cfg=None,
                  test_cfg=None,
-                 pretrained=None):
-        super(EncoderDecoder, self).__init__()
+                 pretrained=None,
+                 init_cfg=None):
+        super(EncoderDecoder, self).__init__(init_cfg)
+        if pretrained is not None:
+            assert backbone.get('pretrained') is None, \
+                'both backbone and segmentor set pretrained weight'
+            backbone.pretrained = pretrained
         self.backbone = builder.build_backbone(backbone)
         if neck is not None:
             self.neck = builder.build_neck(neck)
@@ -36,8 +42,6 @@ class EncoderDecoder(BaseSegmentor):
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
 
-        self.init_weights(pretrained=pretrained)
-
         assert self.with_decode_head
 
     def _init_decode_head(self, decode_head):
@@ -45,6 +49,7 @@ class EncoderDecoder(BaseSegmentor):
         self.decode_head = builder.build_head(decode_head)
         self.align_corners = self.decode_head.align_corners
         self.num_classes = self.decode_head.num_classes
+        self.attn_split = self.decode_head.attn_split
 
     def _init_auxiliary_head(self, auxiliary_head):
         """Initialize ``auxiliary_head``"""
@@ -55,24 +60,6 @@ class EncoderDecoder(BaseSegmentor):
                     self.auxiliary_head.append(builder.build_head(head_cfg))
             else:
                 self.auxiliary_head = builder.build_head(auxiliary_head)
-
-    def init_weights(self, pretrained=None):
-        """Initialize the weights in backbone and heads.
-
-        Args:
-            pretrained (str, optional): Path to pre-trained weights.
-                Defaults to None.
-        """
-
-        super(EncoderDecoder, self).init_weights(pretrained)
-        self.backbone.init_weights(pretrained=pretrained)
-        self.decode_head.init_weights()
-        if self.with_auxiliary_head:
-            if isinstance(self.auxiliary_head, nn.ModuleList):
-                for aux_head in self.auxiliary_head:
-                    aux_head.init_weights()
-            else:
-                self.auxiliary_head.init_weights()
 
     def extract_feat(self, img):
         """Extract features from images."""
@@ -133,7 +120,8 @@ class EncoderDecoder(BaseSegmentor):
 
     def forward_dummy(self, img):
         """Dummy forward function."""
-        seg_logit, _ = self.encode_decode(img, None)
+        seg_logit = self.encode_decode(img, None)
+        # seg_logit, _ = self.encode_decode(img, None)
 
         return seg_logit
 
@@ -220,9 +208,14 @@ class EncoderDecoder(BaseSegmentor):
 
         seg_logit = self.encode_decode(img, img_meta)
         if rescale:
+            # support dynamic shape for onnx
+            if torch.onnx.is_in_onnx_export():
+                size = img.shape[2:]
+            else:
+                size = img_meta[0]['ori_shape'][:2]
             seg_logit = resize(
                 seg_logit,
-                size=img_meta[0]['ori_shape'][:2],
+                size=size,
                 mode='bilinear',
                 align_corners=self.align_corners,
                 warning=False)
@@ -265,12 +258,16 @@ class EncoderDecoder(BaseSegmentor):
         return output
         # return output, maps
 
-    def simple_test(self, img, img_meta, rescale=True):
+    def simple_test(self, img, img_meta, rescale=True, logit=False):
         """Simple test with single image."""
         # MOD
         seg_logit = self.inference(img, img_meta, rescale)
         # seg_logit, maps = self.inference(img, img_meta, rescale)
-        seg_pred = seg_logit.argmax(dim=1)
+        if logit:
+            seg_pred = seg_logit
+        else:
+            seg_pred = seg_logit.argmax(dim=1)
+
         if torch.onnx.is_in_onnx_export():
             # our inference backend only support 4D output
             seg_pred = seg_pred.unsqueeze(0)
@@ -282,7 +279,7 @@ class EncoderDecoder(BaseSegmentor):
         return seg_pred
         # return seg_pred, maps
 
-    def aug_test(self, imgs, img_metas, rescale=True):
+    def aug_test(self, imgs, img_metas, rescale=True, logit=False):
         """Test with augmentations.
 
         Only rescale=True is supported.
@@ -295,7 +292,11 @@ class EncoderDecoder(BaseSegmentor):
             cur_seg_logit = self.inference(imgs[i], img_metas[i], rescale)
             seg_logit += cur_seg_logit
         seg_logit /= len(imgs)
-        seg_pred = seg_logit.argmax(dim=1)
+
+        if logit:
+            seg_pred = seg_logit
+        else:
+            seg_pred = seg_logit.argmax(dim=1)
         seg_pred = seg_pred.cpu().numpy()
         # unravel batch dim
         seg_pred = list(seg_pred)

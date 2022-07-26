@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import matplotlib.pyplot as plt
 import mmcv
 import torch
@@ -28,9 +29,9 @@ def init_segmentor(config, checkpoint=None, device='cuda:0'):
                         'but got {}'.format(type(config)))
     config.model.pretrained = None
     config.model.train_cfg = None
-    config.model.backbone.img_size = config.data.img_size
-    config.model.decode_head.img_size = config.model.backbone.img_size
-    config.model.decode_head.strides = config.model.backbone.strides
+    # config.model.backbone.img_size = config.data.img_size
+    # config.model.decode_head.img_size = config.model.backbone.img_size
+    # config.model.decode_head.strides = config.model.backbone.strides
 
     model = build_segmentor(config.model, test_cfg=config.get('test_cfg'))
     if checkpoint is not None:
@@ -70,7 +71,7 @@ class LoadImage:
         return results
 
 
-def inference_segmentor(model, img):
+def inference_segmentor(model, img, logit_in=False):
     """Inference image(s) with the segmentor.
 
     Args:
@@ -102,11 +103,18 @@ def inference_segmentor(model, img):
     #     result, maps = model(return_loss=False, rescale=True, **data)
     # return result, maps
     with torch.no_grad():
-        result= model(return_loss=False, rescale=True, **data)
+        result= model(return_loss=False, rescale=True, logit=logit_in, **data)
     return result
 
 
-def show_result_pyplot(model, img, result, palette=None, fig_size=(15, 10), save_dir=None, display=False, seg_only=False):
+def show_result_pyplot(model,
+                       img,
+                       result,
+                       palette=None,
+                       fig_size=(15, 10),
+                       opacity=0.5,
+                       title='',
+                       block=True):
     """Visualize the segmentation results on the image.
 
     Args:
@@ -117,13 +125,27 @@ def show_result_pyplot(model, img, result, palette=None, fig_size=(15, 10), save
             map. If None is given, random palette will be generated.
             Default: None
         fig_size (tuple): Figure size of the pyplot figure.
+        opacity(float): Opacity of painted segmentation map.
+            Default 0.5.
+            Must be in (0, 1] range.
+        title (str): The title of pyplot figure.
+            Default is ''.
+        block (bool): Whether to block the pyplot figure.
+            Default is True.
     """
     if hasattr(model, 'module'):
         model = model.module
-    img = model.show_result(img, result, palette=palette, show=False, seg_only=seg_only, out_file=save_dir)
+    # img = model.show_result(img, result, palette=palette, show=False, seg_only=seg_only, out_file=save_dir)
+    # plt.figure(figsize=fig_size)
+    # plt.imshow(mmcv.bgr2rgb(img))
+    # # if save_dir:
+    # #     plt.savefig(save_dir)
+    # if display:
+    #     plt.show()
+    img = model.show_result(
+        img, result, palette=palette, show=False, opacity=opacity)
     plt.figure(figsize=fig_size)
     plt.imshow(mmcv.bgr2rgb(img))
-    # if save_dir:
-    #     plt.savefig(save_dir)
-    if display:
-        plt.show()
+    plt.title(title)
+    plt.tight_layout()
+    plt.show(block=block)

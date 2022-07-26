@@ -48,6 +48,7 @@ class OursHeadClassAtt(BaseDecodeHead):
                  psa_softmax=True,
                  img_size=(300, 375),
                  strides=(1, 2, 2, 2),
+                 size_index=0,
                  **kwargs):
         if PSAMask is None:
             raise RuntimeError('Please install mmcv-full for PSAMask ops')
@@ -63,6 +64,7 @@ class OursHeadClassAtt(BaseDecodeHead):
             normalization_factor = mask_h * mask_w
         self.normalization_factor = normalization_factor
         h, w = img_size
+        # from IPython import embed;embed()
         for s in [2, 2] + [x for x in strides if x != 1]:
             if h % 2 != 0:
                 h += 1
@@ -76,20 +78,19 @@ class OursHeadClassAtt(BaseDecodeHead):
                      type='ClassAttCrossEntropyLoss',
                      use_sigmoid=False,
                      loss_weight=1.0, num_classes=self.num_classes))
-
-        self.attn = Attention(dim=self.in_channels, fmap_size=(self.f_h, self.f_w), heads=self.num_classes)
-        self.mid_channels = int(self.in_channels / self.num_classes) * self.num_classes
+        self.size_index = size_index
+        self.attn = Attention(dim=self.channels, fmap_size=(self.f_h, self.f_w), heads=self.num_classes)
 
 
         self.proj = ConvModule(
-            self.mid_channels,
-            self.in_channels,
+            self.channels,
+            self.in_channels[self.size_index],
             kernel_size=1,
             conv_cfg=self.conv_cfg,
             norm_cfg=self.norm_cfg,
             act_cfg=self.act_cfg)
         self.bottleneck = ConvModule(
-            self.in_channels * 2,
+            self.in_channels[self.size_index] + self.channels,
             self.channels,
             kernel_size=3,
             padding=1,
@@ -97,14 +98,47 @@ class OursHeadClassAtt(BaseDecodeHead):
             norm_cfg=self.norm_cfg,
             act_cfg=self.act_cfg)
 
+        self.convs = nn.ModuleList()
+        for i in range(len(self.in_channels)):
+            self.convs.append(
+                ConvModule(
+                    in_channels=self.in_channels[i],
+                    out_channels=self.channels,
+                    kernel_size=1,
+                    stride=1,
+                    norm_cfg=self.norm_cfg,
+                    act_cfg=self.act_cfg))
+
+        self.fusion_conv = ConvModule(
+            in_channels=self.channels * len(self.in_channels),
+            out_channels=self.channels,
+            kernel_size=1,
+            norm_cfg=self.norm_cfg)
+
     def forward(self, inputs):
         """Forward function."""
-        x = self._transform_inputs(inputs)
-        identity = x
+        inputs = self._transform_inputs(inputs)
+        outs = []
         # from IPython import embed
         # embed()
+        for idx in range(len(inputs)):
+            x = inputs[idx]
+            conv = self.convs[idx]
+            outs.append(
+                resize(
+                    input=conv(x),
+                    size=inputs[self.in_index[self.size_index]].shape[2:],
+                    mode='bilinear',
+                    align_corners=self.align_corners))
+
+        x = self.fusion_conv(torch.cat(outs, dim=1))
+
+        identity = x
+
         out, attn = self.attn(x)
         align_corners = self.align_corners
+        # from IPython import embed
+        # embed()
         out = self.proj(out)
         out = resize(
             out,
@@ -221,3 +255,4 @@ class OursHeadClassAtt(BaseDecodeHead):
             self.total_count += total
 
         return loss
+
