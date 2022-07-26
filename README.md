@@ -26,7 +26,7 @@ If you find this project useful in your research, please cite our work:
 Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
 
 ## Updates:
-07-25-2022: In maintenance for the latest version. Please refer to `./trained_models` folder and new model is available [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
+07-25-2022: The latest version of GA-Nav is ready. Please make sure to pull the latest changes. Please refer to `./trained_models` folder and new model is available [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
 
 06-17-2022: Accepted by RAL/IROS.
 
@@ -65,7 +65,7 @@ pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu101/torch1.6
 # or use
 # pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.10.0/index.html
 ```
-Note: Make sure you mmcv version is compatible with your pytorch and cuda version.
+Note: Make sure you mmcv version is compatible with your pytorch and cuda version. In addition, you can specify the MMCV verion (1.3.16).
 
 ### Step 3: Installing GANav
 ```
