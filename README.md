@@ -12,15 +12,15 @@ This is the code base for:
 If you find this project useful in your research, please cite our work:
 
 ```latex
-@misc{guan2021ganav,
-      title={GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments}, 
-      author={Tianrui Guan and Divya Kothandaraman and Rohan Chandra and Adarsh Jagan Sathyamoorthy and Kasun Weerakoon and Dinesh Manocha},
-      year={2021},
-      eprint={2103.04233},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
-}
-
+@ARTICLE{9810192,
+  author={Guan, Tianrui and Kothandaraman, Divya and Chandra, Rohan and Sathyamoorthy, Adarsh Jagan and Weerakoon, Kasun and Manocha, Dinesh},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={GA-Nav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments}, 
+  year={2022},
+  volume={7},
+  number={3},
+  pages={8138-8145},
+  doi={10.1109/LRA.2022.3187278}}
 ```
 
 Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
