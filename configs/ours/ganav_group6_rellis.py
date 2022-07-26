@@ -4,7 +4,7 @@ _base_ = [
 ]
 
 
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=4e-5)
+optimizer = dict(type='SGD', lr=0.003, momentum=0.9, weight_decay=4e-5)
 optimizer_config = dict()
 # learning policy
 # runtime settings
@@ -23,7 +23,7 @@ model=dict(
     decode_head=dict(img_size=(375, 600)))
 
 data = dict(
-    samples_per_gpu=8,
+    samples_per_gpu=2,
     workers_per_gpu=2)
 
 

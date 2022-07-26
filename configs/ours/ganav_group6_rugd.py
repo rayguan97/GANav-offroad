@@ -4,7 +4,7 @@ _base_ = [
 ]
 
 
-optimizer = dict(type='SGD', lr=0.2, momentum=0.9, weight_decay=4e-5)
+optimizer = dict(type='SGD', lr=0.06, momentum=0.9, weight_decay=4e-5)
 optimizer_config = dict()
 # learning policy
 # runtime settings
@@ -21,7 +21,7 @@ lr_config = dict(policy='poly', power=0.9, min_lr=1e-4, warmup='linear',
 
 
 data = dict(
-    samples_per_gpu=32,
+    samples_per_gpu=8,
     workers_per_gpu=6)
 
 

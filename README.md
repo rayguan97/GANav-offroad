@@ -142,6 +142,11 @@ python ./tools/train.py ./configs/ours/ganav_group6_rugd.py
 
 Please modify `./configs/ours/*` to play with your model and read `./tools/train.py` for more details about training options.
 
+To train a model on multiple GPUs(RUGD, 6 groups, 2 GPUs):
+```
+./tools/dist_train.sh ./configs/ours/ganav_group6_rugd.py 2
+```
+
 ## Testing
 
 An example to evaluate our method with 6 groups on RUGD datasets with mIoU metrics:
