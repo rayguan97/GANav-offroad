@@ -9,6 +9,17 @@ This is the code base for:
 
 <img src="./resources/video.gif" width="560">
 
+## Updates:
+07-25-2022: The latest version of GA-Nav is ready. Please make sure to pull the latest changes. Please refer to `./trained_models` folder and new model is available [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
+
+06-17-2022: Accepted by RAL/IROS.
+
+02-21-2022: Updated code and checkpoints in preparation.
+
+12-09-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
+
+05-10-2021: Trained models are ready. ~~Please refer to `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).~~
+
 If you find this project useful in your research, please cite our work:
 
 ```latex
@@ -24,17 +35,6 @@ If you find this project useful in your research, please cite our work:
 ```
 
 Our video can be found [here](https://www.youtube.com/watch?v=QN5FKakQwfo).
-
-## Updates:
-07-25-2022: The latest version of GA-Nav is ready. Please make sure to pull the latest changes. Please refer to `./trained_models` folder and new model is available [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).
-
-06-17-2022: Accepted by RAL/IROS.
-
-02-21-2022: Updated code and checkpoints in preparation.
-
-12-09-2021: Updated ros-support for GANav [here](https://github.com/rayguan97/GANav-offroad/tree/main/ros_support).
-
-05-10-2021: Trained models are ready. ~~Please refer to `./trained_models` folder. Please download the trained model [here](https://drive.google.com/drive/folders/1PYn_kT0zBGOIRSaO_5Jivaq3itrShiPT?usp=sharing).~~
 
 # Introduction
 
