@@ -115,4 +115,4 @@ work_dirs/
 # Pytorch
 *.pth
 data
-
+.DS_Store
