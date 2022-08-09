@@ -184,7 +184,7 @@ class Attention(nn.Module):
         q, k, v = self.to_qkv(fmap).chunk(3, dim = 1)
         q, k, v = map(lambda t: rearrange(t, 'b (h d) x y -> b h (x y) d', h = heads), (q, k, v))
 
-        q *= self.scale
+        q = q * self.scale
 
         sim = einsum('b h i d, b h j d -> b h i j', q, k)
 
