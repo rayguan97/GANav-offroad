@@ -152,8 +152,8 @@ To train a model on multiple GPUs(RUGD, 6 groups, 2 GPUs):
 An example to evaluate our method with 6 groups on RUGD datasets with mIoU metrics:
 
 ```
-python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd.py \
-          ./trained_models/rugd_group6/ganav_rugd.pth --eval=mIoU
+python ./tools/test.py ./trained_models/rugd_group6/ganav_rugd_6.py \
+          ./trained_models/rugd_group6/ganav_rugd_6.pth --eval=mIoU
 ```
 Please read `./tools/test.py` for more details.
 
