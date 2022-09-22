@@ -71,7 +71,7 @@ Note: Make sure you mmcv version is compatible with your pytorch and cuda versio
 ```
 git clone https://github.com/rayguan97/GANav-offroad.git
 cd GANav-offroad
-pip install einops
+pip install einops prettytable
 pip install -e . 
 ```
 
