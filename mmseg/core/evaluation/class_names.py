@@ -3,15 +3,15 @@ import mmcv
 
 def rellis_group_classes():
     """rellis group class names for external use."""
-    return [ "background", "L1", "L2", "L3", "non-Nav", "obstacle"]
+    return [ "background", "L1 (Smooth)", "L2 (Rough)", "L3 (Bumpy)", "non-Nav (Forbidden)", "obstacle"]
 
 def rugd_group_classes():
     """rugd group class names for external use."""
-    return [ "background", "L1", "L2", "L3", "Non-Nav", "obstacle"]
+    return [ "background", "L1 (Smooth)", "L2 (Rough)", "L3 (Bumpy)", "non-Nav (Forbidden)", "obstacle"]
 
 def rugd_group4_classes():
     """rugd group class names for external use."""
-    return [ "background", "L1", "Non-Nav", "obstacle"]
+    return [ "background", "L1 (Smooth)", "non-Nav (Forbidden)", "obstacle"]
 
 def rellis_classes():
     """rellis class names for external use."""

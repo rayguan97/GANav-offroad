@@ -10,7 +10,7 @@ class RELLISDataset_Group4(CustomDataset):
 
 
 
-    CLASSES = ("background", "L1", "non-Nav", "obstacle")
+    CLASSES = ("background", "L1 (Smooth)", "non-Nav (Forbidden)", "obstacle")
 
     PALETTE = [[ 0, 0, 0 ], [ 0,128,0 ],
             [ 255, 0, 0 ],[  0, 0, 128] ]
@@ -20,6 +20,6 @@ class RELLISDataset_Group4(CustomDataset):
             img_suffix='.jpg',
             seg_map_suffix='_group4.png',
             **kwargs)
-        self.CLASSES = ("background", "L1", "non-Nav", "obstacle")
+        self.CLASSES = ("background", "L1 (Smooth)", "non-Nav (Forbidden)", "obstacle")
         self.PALETTE = [[ 0, 0, 0 ], [ 0,128,0 ],
             [ 255, 0, 0 ],[  0, 0, 128] ]

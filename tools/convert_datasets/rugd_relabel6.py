@@ -24,11 +24,11 @@ Groups = [2, 2, 2, 5, 5, 4, 0, 5, 5, 1, 2, 5, 2, 3, 5, 5, 5, 5, 5, 0, 3, 5, 1, 5
 
 
 # 0 -- Background: void, sky, sign
-# 1 -- Level1 - Navigable: concrete, asphalt
-# 2 -- Level2 - Navigable: gravel, grass, dirt, sand, mulch
-# 3 -- Level3 - Navigable: Rock, Rock-bed
-# 4 -- Non-Navigable: water
-# 5 -- Obstacle:  tree, pole, vehicle, container/generic-object, building, log, 
+# 1 -- Level1 (smooth) - Navigable: concrete, asphalt
+# 2 -- Level2 (rough) - Navigable: gravel, grass, dirt, sand, mulch
+# 3 -- Level3 (bumpy) - Navigable: Rock, Rock-bed
+# 4 -- Non-Navigable (forbidden) - water
+# 5 -- Obstacle - tree, pole, vehicle, container/generic-object, building, log, 
 #                 bicycle(could be removed), person, fence, bush, picnic-table, bridge,
 
 color_id = {tuple(c):i for i, c in enumerate(PALETTE)}
