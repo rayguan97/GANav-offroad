@@ -1,5 +1,5 @@
 # GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments (Accepted by RAL/IROS 2022)
-
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/rayguan97/GANav-offroad/.github%2Fworkflows%2Fpython-package-conda.yml)
 [![GitHub Repo stars](https://img.shields.io/github/stars/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/network)
 [![GitHub issues](https://img.shields.io/github/issues/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/issues)
