@@ -1,6 +1,10 @@
 # GANav: Efficient Terrain Segmentation for Robot Navigation in Unstructured Outdoor Environments (Accepted by RAL/IROS 2022)
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://github.com/rayguan97/GANav-offroad/blob/master/LICENSE)
+[![GitHub Repo stars](https://img.shields.io/github/stars/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/network)
+[![GitHub issues](https://img.shields.io/github/issues/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/issues)
+[![GitHub](https://img.shields.io/github/license/rayguan97/GANav-offroad)](https://github.com/rayguan97/GANav-offroad/blob/master/LICENSE)
+
 
 This is the code base for:
 
