@@ -90,7 +90,10 @@ To be able to run our network, please follow those steps for generating processe
 
 ### Dataset Download: 
 
-Please go to [RUGD](http://rugd.vision/) and [RELLIS-3D](https://github.com/unmannedlab/RELLIS-3D/blob/main/README.md#annotated-data) (we use the ID annotation instead of color annotation for RELLIS-3D) officail website to download their data. Please structure the downloaded datain as follows:
+Please go to [RUGD](http://rugd.vision/) and [RELLIS-3D](https://github.com/unmannedlab/RELLIS-3D/blob/main/README.md#annotated-data) (we use the ID annotation instead of color annotation for RELLIS-3D) officail website to download their data. 
+<!-- Please structure the downloaded data as follows: -->
+
+Note: Since RELLIS-3D dataset has been updated, please run `python ./tools/process_rellis.py` to remove "pylon_camera_node/", "pylon_camera_node_label_id/" folder, after structure the data as follows:
 
 ```
 GANav
