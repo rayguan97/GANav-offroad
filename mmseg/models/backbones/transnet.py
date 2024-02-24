@@ -173,7 +173,7 @@ class Attention(nn.Module):
         # print()
         # print(h) # 38
         # print(w) # 47
-        # from IPython import embed
+        # from IPython import embed;embed()
         # embed()
         # from IPython import embed;embed()
         assert h==self.h

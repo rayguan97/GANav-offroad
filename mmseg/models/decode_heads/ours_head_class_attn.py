@@ -81,7 +81,7 @@ class OursHeadClassAtt(BaseDecodeHead):
         self.size_index = size_index
         self.attn = Attention(dim=self.channels, fmap_size=(self.f_h, self.f_w), heads=self.num_classes)
 
-
+        # from IPython import embed;embed()
         self.proj = ConvModule(
             self.channels,
             self.in_channels[self.size_index],
