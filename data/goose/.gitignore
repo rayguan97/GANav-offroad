@@ -1,0 +1,4 @@
+goose_label_mapping.csv
+images/*
+labels/*
+LICENSE
