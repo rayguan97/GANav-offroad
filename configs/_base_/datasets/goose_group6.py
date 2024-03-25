@@ -2,7 +2,7 @@
 dataset_type = 'GOOSEDataset_Group6'
 data_root = 'data/goose/'
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+    mean=[80.66, 77.73, 76.87], std=[61.40, 61.08, 64.47], to_rgb=True)
 img_size = (2048, 1000)
 crop_size = (375, 600)
 train_pipeline = [
