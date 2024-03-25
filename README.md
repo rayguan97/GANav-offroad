@@ -117,6 +117,18 @@ GANav
 │   │   │   ├── creek & park-1/2/8 & trail-(1 & 3-7 & 9-15) & village
 │   │   │── RUGD_frames-with-annotations
 │   │   │   ├── creek & park-1/2/8 & trail-(1 & 3-7 & 9-15) & village
+│   ├── goose
+│   │   ├── goose_label_mapping.csv
+│   │   ├── images
+│   │   │   ├── train
+│   │   │   └── val
+│   │   ├── labels
+│   │   │   ├── train
+│   │   │   └── val
+│   │   ├── LICENSE
+│   │   ├── test.txt
+│   │   ├── train.txt
+│   │   └── val.txt
 ├── configs
 ├── tools
 ...
@@ -140,6 +152,12 @@ For RUGD dataset, run:
 
 Replease [x] with 4 or 6, to generated data with 4 annotation groups or 6 annotation groups.
 
+For the GOOSE dataset, run:
+
+   ```
+   python ./tools/convert_datasets/goose_relabel6.py
+   ``` 
+
 ## Training
 
 To train a model on RUGD datasets with our methods on 6 groups:
@@ -152,6 +170,12 @@ Please modify `./configs/ours/*` to play with your model and read `./tools/train
 To train a model on multiple GPUs(RUGD, 6 groups, 2 GPUs):
 ```
 ./tools/dist_train.sh ./configs/ours/ganav_group6_rugd.py 2
+```
+
+To train on the GOOSE dataset run:
+
+```
+python ./tools/train.py ./configs/ours/ganav_group6_goose.py
 ```
 
 ## Testing
